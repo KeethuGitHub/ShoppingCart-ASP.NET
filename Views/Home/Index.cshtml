@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Product Catalogue";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+<table align="center">
+    <tr>
+        <td>@Html.Partial("_HeaderPartialView")</td>
+        <td id="cart-view" style="text-align:center;width:110px;">@Html.Partial("_CartPartialView")</td>
+    </tr>
+    <tr>
+        <td colspan="2">@Html.Partial("_SearchPartialView")</td>
+    </tr>
+    <tr>
+        <td colspan="2" id="catalogue-view">@Html.Partial("_CataloguePartialView")</td>
+    </tr>
+</table>

@@ -1,0 +1,6 @@
+﻿@{
+    int id = (int)ViewData["ID"];
+    int qty = (int)ViewData["Qty"];
+}
+
+<input type="text" id="product-@id-qty" readonly="readonly" value="@qty">

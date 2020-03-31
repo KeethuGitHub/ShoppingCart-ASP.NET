@@ -1,0 +1,120 @@
+﻿@model ShoppingWebApp.Models.Customer
+
+@{
+    ViewBag.Title = "Account Registration";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    @using (Html.BeginForm("Register", "Home", FormMethod.Post, new { autocomplete = "off" }))
+    {
+        <table class="login-table" align="center">
+            <tr>
+                <th>@Html.LabelFor(m => m.FirstName):</th>
+                <td>@Html.EditorFor(m => m.FirstName, new { htmlAttributes = new { placeholder = "Enter First Name...", @class = "form-control" } })</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(m => m.LastName):</th>
+                <td>@Html.EditorFor(m => m.LastName, new { htmlAttributes = new { placeholder = "Enter Last Name...", @class = "form-control" } })</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(m => m.Gender):</th>
+                <td align="center">
+                    @Html.RadioButtonFor(m => m.Gender, "M", new { id = "Male" })Male
+                    &nbsp;&nbsp;
+                    @Html.RadioButtonFor(m => m.Gender, "F", new { id = "Female" })Female
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.Gender, "", new { @class = "text-danger" })</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(m => m.Username):</th>
+                <td>@Html.EditorFor(m => m.Username, new { htmlAttributes = new { placeholder = "Enter Username...", @class = "form-control" } })</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(m => m.Password):</th>
+                <td>@Html.EditorFor(m => m.Password, new { htmlAttributes = new { placeholder = "Enter Password...", @class = "form-control" } })</td>
+                <td><input type="checkbox" onclick="ShowPassword(this)" />Peek</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(m => m.ConfirmPassword):</th>
+                <td>@Html.EditorFor(m => m.ConfirmPassword, new { htmlAttributes = new { placeholder = "Confirm Password...", @class = "form-control" } })</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(m => m.Email):</th>
+                <td>@Html.EditorFor(m => m.Email, new { htmlAttributes = new { placeholder = "Enter Email...", @class = "form-control" } })</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(m => m.Dateofbirth):</th>
+                <td>@Html.EditorFor(m => m.Dateofbirth, new { htmlAttributes = new { @class = "form-control" } })</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.Dateofbirth, "", new { @class = "text-danger" })</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="3" align="center">
+                    @Html.EditorFor(m => m.UserAgreement, new { @class = "form-control" })
+                    I agree to Team10b's <strong>Terms of Use</strong> and <strong>Privacy Policy</strong>.
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" align="center">
+                    @Html.ValidationMessageFor(m => m.UserAgreement, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" align="center">
+                    <button type="submit" class="btn btn-success" value="submit">
+                        Register
+                    </button>
+                    <p class="btn btn-warning">
+                        @Html.ActionLink("Cancel", "Login", "Home", null, new { style = "text-decoration:none;" })
+                    </p>
+                </td>
+            </tr>
+        </table>
+    }
+</div>

@@ -1,0 +1,62 @@
+﻿@model ShoppingWebApp.Models.Customer
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { autocomplete = "off" }))
+    {
+        <table class="login-table" align="center">
+            <tr>
+                <th>@Html.LabelFor(m => m.Username):</th>
+                <td>@Html.EditorFor(m => m.Username, new { htmlAttributes = new { placeholder = "Enter Username...", @class = "form-control" } })</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(m => m.Password):</th>
+                <td>@Html.EditorFor(m => m.Password, new { htmlAttributes = new { placeholder = "Enter Password...", @class = "form-control" } })</td>
+                <td><input type="checkbox" onclick="ShowPassword(this)" />Peek</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="3" align="center">
+                    <button type="submit" class="btn btn-success" value="submit">
+                        Login
+                    </button>
+                    <p class="btn btn-warning">
+                        @if (Session["LoginType"] == null)
+                        {
+                            @Html.ActionLink("Cancel", "Index", "Home", null, new { style = "text-decoration:none;" })
+                        }
+                        else if ((string)Session["LoginType"] == "CartLogin")
+                        {
+                            @Html.ActionLink("Cancel", "Index", "Cart", null, new { style = "text-decoration:none;" })
+                        }
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" align="center">
+                    <p>Don't have an account? You can register for a new account @Html.ActionLink("here", "Register", "Home", null, new { @class = "action-link" }).</p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" align="center">
+                    <p>Forgot your password? You can request for a password reset @Html.ActionLink("here", "ForgotPassword", "Home", null, new { @class = "action-link" }).</p>
+                </td>
+            </tr>
+        </table>
+    }
+</div>

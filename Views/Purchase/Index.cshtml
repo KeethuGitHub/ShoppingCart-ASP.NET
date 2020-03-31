@@ -1,0 +1,61 @@
+﻿@model List<Purchase>
+
+@using ShoppingWebApp.Models;
+
+@{
+    ViewBag.Title = "My Purchases";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="text-center">Product</th>
+                        <th class="text-center">Purchased Date</th>
+                        <th class="text-center">Qty</th>
+                        <th class="text-center">Activation Code(s)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="4">There are past purchases.</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (Purchase p in Model)
+                        {
+                            <tr>
+                                <td class="col-sm-8 col-md-6">
+                                    <div class="media" style="text-align:center;">
+                                        <img src="~/img/dotnet.jpg" style="height:60px;width:60px;">
+                                        <div class="media-body">
+                                            <span class="media-heading">@p.Name</span><br />
+                                            <span class="media-heading">@p.Description</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="col-md-1 text-center .w-auto">@p.Date</td>
+                                <td class="col-md-1 text-center .w-auto">@p.Quantity</td>
+                                <td class="col-md-1 text-center .w-auto">
+                                    <div style="overflow-y:auto;height:100px;width:380px;">
+                                        @foreach (Guid ac in p.ActivationCodes)
+                                        {
+                                            <p>@ac</p>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

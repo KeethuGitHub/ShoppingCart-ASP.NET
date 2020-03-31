@@ -1,0 +1,113 @@
+﻿@using ShoppingWebApp.Models;
+
+@{
+    ViewBag.Title = "My Cart";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@{
+    var cart = ViewBag.Cart as Dictionary<int, int>;
+    var productList = ViewBag.ProductList as List<Product>;
+    double cartSubTotal = ViewBag.CartSubTotal;
+    double discountPercent = ViewBag.DiscountPercent;
+    double cartTotal = ViewBag.CartTotal;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="text-center">Product</th>
+                        <th class="text-center">Quantity</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Total</th>
+                        <th class="text-center">Remove?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (productList.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="5">There are no products in the cart.</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (Product p in productList)
+                        {
+                            <tr id="@p.ID">
+                                <td class="col-sm-8 col-md-6">
+                                    <div class="media" style="text-align:center;">
+                                        <a class="img-thumbnail" href="#"><img class="media-object" src="~/img/dotnet.jpg" style="height:60px;width:60px;"></a>
+                                        <div class="media-body">
+                                            <p class="media-heading">@p.Name</p>
+                                            <p class="media-heading">@p.Description</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="col-sm-1 col-md-1" style="text-align:center;width:200px;">
+                                    <div class="quantity">
+                                        <button name="minus" onclick="UpdateCart(this, @p.ID)">-</button>
+                                        <span id="product-@p.ID-view">@Html.Partial("_QtyPartialView", new ViewDataDictionary { { "ID", p.ID }, { "Qty", cart[p.ID] } })</span>
+                                        <button name="plus" onclick="UpdateCart(this, @p.ID)">+</button>
+                                    </div>
+                                </td>
+                                <td class="col-sm-1 col-md-1 text-center" id="@p.ID-price">$@p.Price</td>
+                                <td class="col-sm-1 col-md-1 text-center" id="total-@p.ID-price">$@(p.Price * cart[p.ID])</td>
+                                <td class="col-sm-1 col-md-1">
+                                    <button name="remove" type="button" class="btn btn-danger" onclick="UpdateCart(this, @p.ID)">
+                                        <span class="glyphicon glyphicon-remove"></span> Remove
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    <tr>
+                        <td colspan="5"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="text-center"><h5>Subtotal</h5></td>
+                        <td></td>
+                        <td class="text-center" id="cart-subtotal">$@cartSubTotal</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="text-center"><h5>Discount</h5></td>
+                        <td></td>
+                        <td class="text-center">0%</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="text-center"><h3>Total</h3></td>
+                        <td></td>
+                        <td class="text-center" id="cart-total">$@cartTotal</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="text-center">
+                            <button class="btn btn-default" type="button" onclick="location.href='@Url.Action("Index", "Home")'">
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+                                @Html.ActionLink("Continue Shopping", "Index", "Home", null, new { style = "text-decoration:none;" })
+                            </button>
+                        </td>
+                        <td></td>
+                        <td class="text-center">
+                            <button class="btn btn-success" type="button">
+                                @Html.ActionLink("Checkout", "Checkout", "Cart", null, new { onclick = "return confirm('Confirm checkout?');", style = "text-decoration:none;" })
+                                <span class="glyphicon glyphicon-play"></span>
+                            </button>
+                        </td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

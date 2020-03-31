@@ -1,0 +1,44 @@
+﻿@using ShoppingWebApp.Models;
+
+@{
+    var productList = ViewBag.ProductList as List<Product>;
+}
+
+<table>
+    @if (productList.Count == 0)
+    {
+        <tr>
+            <td>There are no products matching your search.</td>
+        </tr>
+    }
+    else
+    {
+        int numOfRows = (int)Math.Ceiling((double)productList.Count / 3);
+        int index = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            <tr>
+                @for (int j = 0; j < 3; j++)
+                {
+                    <td style="text-align:center;">
+                        <div class="w3-container">
+                            <img src="~/img/dotnet.jpg" style="height:150px;width:150px;">
+                            <p>@productList[index].Name<br></p>
+                            <p>@productList[index].Description<br></p>
+                            <button class="w3-button w3-black" name="@productList[index].ID" onclick="AddToCart(this)"><b>$@productList[index].Price - Add To Cart</b></button>
+                        </div>
+                    </td>
+                    index += 1;
+                    if (index >= productList.Count)
+                    {
+                        break;
+                    }
+                }
+            </tr>
+            if (index >= productList.Count)
+            {
+                break;
+            }
+        }
+    }
+</table>

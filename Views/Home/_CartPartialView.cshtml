@@ -1,0 +1,13 @@
+﻿@{ 
+    int qty = (int)Session["CartQty"];
+}
+
+<table>
+    <tr>
+        <td>
+            <!--@Html.ActionLink("Cart", "Index", "Cart", null, new { @class = "action-link" })-->
+            <a href=@Url.Action("Index","Cart")><img src="~/img/cart.png" style="padding-bottom:5px;" height="30" width="30" /></a>
+            <input class="cart-count-box" style="text-align:center;width:32px;" type="text" disabled="disabled" value="@qty">
+        </td>
+    </tr>
+</table>

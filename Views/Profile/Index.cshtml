@@ -1,0 +1,45 @@
+﻿@model Customer
+
+@using ShoppingWebApp.Models;
+
+@{
+    ViewBag.Title = "My Profile";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    @using (Html.BeginForm("Register", "Home", FormMethod.Post, new { autocomplete = "off" }))
+    {
+        <table class="login-table" align="center">
+            <tr>
+                <th>@Html.LabelFor(m => m.FirstName):</th>
+                <td>@Model.FirstName</td>
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(m => m.LastName):</th>
+                <td>@Model.LastName</td>
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(m => m.Gender):</th>
+                <td>@Model.Gender</td>
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(m => m.Email):</th>
+                <td>@Model.Email</td>
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(m => m.Dateofbirth):</th>
+                <td>@Model.Dateofbirth.Value.Year</td>
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(m => m.JoinDate)</th>
+                <td>@Model.JoinDate.Year</td>
+            </tr>
+            <tr>
+                <th>Order History:</th>
+                <td>@Html.ActionLink("My Purchases", "Index", "Purchase", null, new { @class = "action-link" })</td>
+            </tr>
+        </table>
+    }
+</div>

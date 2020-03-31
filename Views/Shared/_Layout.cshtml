@@ -1,0 +1,264 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Team10b</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        @@keyframes rgbBlink {
+            0% {
+                color: red;
+            }
+
+            50% {
+                color: green;
+            }
+
+            100% {
+                color: blue;
+            }
+        }
+
+        .blinkingAnim {
+            animation: rgbBlink 1.0s infinite alternate;
+            font-family: 'Segoe Script';
+        }
+
+        table {
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+        }
+
+        .action-link {
+            color: blue;
+            text-decoration: underline;
+        }
+
+        .cart-count-box {
+            height: 30px;
+            width: 30px;
+            background-color: white;
+            border-radius: 100%;
+            display: inline-block;
+            text-align: center;
+            border-color: black;
+        }
+
+        .error-msg {
+            color: red;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .login-table {
+            width: auto;
+        }
+
+        .quantity {
+            padding-top: 20px;
+        }
+
+            .quantity input {
+                border: none;
+                color: #43484D;
+                font-size: 16px;
+                font-weight: 300;
+                text-align: center;
+                width: 32px;
+            }
+
+            .quantity button {
+                background-color: #E1E8EE;
+                border: none;
+                border-radius: 6px;
+                display: inline-block;
+                cursor: pointer;
+                height: 30px;
+                width: 30px;
+            }
+
+                .quantity button:focus,
+                .quantity input:focus {
+                    outline: none;
+                }
+    </style>
+</head>
+<body onload="ProductSearch()">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Team 10b", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>
+                &copy; @DateTime.Now.Year - @Html.ActionLink("Team 10b", "About", "Home", null, new { @class = "blinkingAnim" })
+                &nbsp;
+                <a href="mailto:Team10bca2019@gmail.com?subject=Enquiry:%20[INSERT%20TITLE%20HERE]">Contact Us</a>
+            </p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap-new")
+    @Scripts.Render("~/bundles/bootstrap-minnew")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<script>
+    function ShowPassword(chkElem) {
+        if (chkElem.checked) {
+            document.getElementById("Password").type = "text";
+            document.getElementById("ConfirmPassword").type = "text";
+        }
+        else {
+            document.getElementById("Password").type = "password";
+            document.getElementById("ConfirmPassword").type = "password";
+        }
+    }
+
+    function ProductSearch() {
+        var searchBox = document.getElementById("SearchBox");
+        searchBox.addEventListener("keypress",
+            function (e) {
+                var key = e.which || e.KeyCode;
+                if (key == 13) {
+                    var data = { searchStr: searchBox.value };
+                    SearchPOST(data);
+                }
+            });
+        searchBox.addEventListener("keydown",
+            function (e) {
+                var key = e.which || e.KeyCode;
+                if (key == 8 && searchBox.value.length == 1) {
+                    var data = { searchStr: "" };
+                    SearchPOST(data);
+                }
+            });
+    }
+
+    function SearchPOST(data) {
+        var ajax = new XMLHttpRequest();
+        ajax.onreadystatechange = function () {
+            if (ajax.readyState == 4) {
+                document.getElementById("catalogue-view").innerHTML = ajax.response;
+            }
+        }
+        ajax.open("POST", "/Home/Search", true);
+        ajax.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        ajax.send(JSON.stringify(data));
+    }
+
+    function AddToCart(elem) {
+        var productID = parseInt(elem.name);
+        var data = { action: "add", productID: productID };
+        AddtoCartPOST(data);
+    }
+
+    function AddtoCartPOST(data) {
+        var ajax = new XMLHttpRequest();
+        ajax.onreadystatechange = function () {
+            if (ajax.readyState == 4) {
+                document.getElementById("cart-view").innerHTML = ajax.response;
+            }
+        }
+        ajax.open("POST", "/Cart/UpdateSessionCart", true);
+        ajax.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        ajax.send(JSON.stringify(data));
+    }
+
+    function UpdateCart(elem, prodID) {
+        var data = { action: elem.name, productID: prodID };
+        UpdateCartPOST(data, elem.name);
+    }
+
+    function UpdateCartPOST(data, action) {
+        var ajax = new XMLHttpRequest();
+        ajax.onreadystatechange = function () {
+            if (ajax.readyState == 4) {
+                if (action == "plus" || action == "minus") {
+                    document.getElementById("product-" + data.productID + "-view").innerHTML = ajax.response;
+                    UpdateProdTotalPrice(data.productID, action);
+                }
+                else if (action == "remove") {
+                    UpdateProdTotalPrice(data.productID, action);
+                    var elem = document.getElementById(data.productID);
+                    elem.parentNode.removeChild(elem);
+                }
+            }
+        }
+        ajax.open("POST", "/Cart/UpdateSessionCart", true);
+        ajax.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        ajax.send(JSON.stringify(data));
+    }
+
+    function UpdateProdTotalPrice(id, action) {
+        var currentProdTotalPriceElem = document.getElementById("total-" + id + "-price");
+        var currentProdTotalPrice = parseInt(currentProdTotalPriceElem.innerHTML.substr(1));
+        if (action == "remove") {
+            UpdateCartSubTotal(currentProdTotalPrice, action);
+        }
+        else if (currentProdTotalPrice != 0 || (currentProdTotalPrice == 0 && action == "plus")) {
+            var prodQtyElem = document.getElementById("product-" + id + "-qty");
+            var unitPriceElem = document.getElementById(id + "-price");
+            var prodQty = parseInt(prodQtyElem.value);
+            var unitPrice = parseInt(unitPriceElem.innerHTML.substr(1));
+            var prodTotalPrice = prodQty * unitPrice;
+            document.getElementById("total-" + id + "-price").innerHTML = "$" + prodTotalPrice;
+            UpdateCartSubTotal(unitPrice, action);
+        }
+    }
+
+    function UpdateCartSubTotal(price, action) {
+        var cartSubTotalElem = document.getElementById("cart-subtotal");
+        var cartSubTotal = parseInt(cartSubTotalElem.innerHTML.substr(1))
+        if (action == "plus") {
+            cartSubTotal += price;
+        }
+        else if (action == "minus" || action == "remove") {
+            if (cartSubTotal > 0) {
+                cartSubTotal -= price;
+            }
+        }
+        document.getElementById("cart-subtotal").innerHTML = "$" + cartSubTotal;
+        UpdateCartTotalPrice(cartSubTotal);
+    }
+
+    function UpdateCartTotalPrice(cartSubTotal) {
+        var cartTotalElem = document.getElementById("cart-total");
+        var cartTotal = parseInt(cartTotalElem.innerHTML.substr(1));
+        var discountPercent = 0;
+        cartTotal = cartSubTotal * (1 - discountPercent / 100);
+        document.getElementById("cart-total").innerHTML = "$" + cartTotal;
+    }
+</script>

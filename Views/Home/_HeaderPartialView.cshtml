@@ -1,0 +1,34 @@
+﻿@using ShoppingWebApp.Models;
+
+@{
+    string visitor = null;
+    if ((string)Session["User"] == "guest")
+    {
+        visitor = "Guest";
+    }
+    else
+    {
+        Customer customer = (Customer)Session["Customer"];
+        visitor = customer.FirstName + " " + customer.LastName;
+    }
+}
+
+<table align="center">
+    <tr>
+        <td>
+            Hello, @visitor!
+            @if (visitor == "Guest")
+            {
+                @Html.ActionLink("Login", "Login", "Home", null, new { @class = "action-link" })
+            }
+            else
+            {
+                @Html.ActionLink("My Profile", "Index", "Profile", null, new { @class = "action-link" })
+                @:&nbsp;|&nbsp;
+                @Html.ActionLink("My Purchases", "Index", "Purchase", null, new { @class = "action-link" })
+                @:&nbsp;|&nbsp;
+                @Html.ActionLink("Logout", "Logout", "Home", null, new { @class = "action-link", onclick = "return confirm('Confirm logout?');" })
+            }
+        </td>
+    </tr>
+</table>
